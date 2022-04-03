@@ -12,6 +12,10 @@ class Vars():
     scrH = Gdk.Screen().get_default().get_height()
     perCent = Gtk.Adjustment(0, 0, 100, 1, 10, 0)
 
+# nonsense functions
+class Funcs():
+    def _Class(obj,_class:str):
+        obj.get_style_context().add_class(_class)
 
 # widgets
 class Win():
@@ -21,7 +25,10 @@ class Win():
             params+=i+","
         exec(f'globals()["{id}"] = Gtk.Window({params})')
         for i in args:
-            globals()[id].add(i)
+            if type(i) == Gtk.HeaderBar:
+                globals()[id].set_titlebar(i)
+            else:
+                globals()[id].add(i)
         return globals()[id]
 class Btn():
     def __new__(self,id:str,param:list=[],*args):
@@ -42,13 +49,17 @@ class TBtn():
             globals()[id].add(i)
         return globals()[id]
 class HeaderBar():
-    def __new__(self,id:str,param:list=[],*args):
+    def __new__(self,id:str,param:list=[],center:bool=False,*args):
         params=""
         for i in param:
             params+=i+","
         exec(f'globals()["{id}"] = Gtk.HeaderBar({params})')
         for i in args:
-            globals()[id].add(i)
+            if center == True:
+                center = False
+                globals()[id].set_custom_title(i)
+            else:
+                globals()[id].add(i)
         return globals()[id]
 class SE():
     def __new__(self,id:str,param:list=[],*args):
